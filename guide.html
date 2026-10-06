@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Руководство: Focus Mode</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0e1410;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.55;
+      padding: 32px 16px 64px;
+    }
+
+    .container { max-width: 760px; margin: 0 auto; }
+
+    h1 {
+      font-size: 26px; font-weight: 700;
+      color: #fff; margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 14px; color: rgba(255,255,255,0.4);
+      margin-bottom: 40px;
+    }
+
+    /* ── Section ─────────────────────────────────────── */
+    .section { margin-bottom: 40px; }
+    .section-title {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.8px;
+      text-transform: uppercase; color: rgba(100,210,130,0.8);
+      margin-bottom: 16px;
+    }
+
+    /* ── Bubble anatomy ──────────────────────────────── */
+    .anatomy {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .anatomy-row {
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .anatomy-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(100,210,130,0.7);
+      margin-top: 6px; flex-shrink: 0;
+    }
+    .anatomy-label {
+      font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9);
+      min-width: 80px;
+    }
+    .anatomy-desc {
+      font-size: 13px; color: rgba(255,255,255,0.5);
+    }
+
+    /* ── Variants grid ───────────────────────────────── */
+    .variants { display: flex; flex-direction: column; gap: 10px; }
+    .variant-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .variant-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, #3a7a50, #284f32);
+      color: #fff; font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .variant-body { flex: 1; min-width: 0; }
+    .variant-name {
+      font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.9);
+      margin-bottom: 3px;
+    }
+    .variant-desc {
+      font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5;
+    }
+    .variant-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 500;
+      padding: 2px 8px; border-radius: 20px; margin-top: 6px;
+      background: rgba(100,210,130,0.1);
+      border: 1px solid rgba(100,210,130,0.25);
+      color: rgba(100,210,130,0.9);
+    }
+
+    /* ── Steps ───────────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex; gap: 16px; position: relative;
+      padding-bottom: 20px;
+    }
+    .step:last-child { padding-bottom: 0; }
+    .step-left { display: flex; flex-direction: column; align-items: center; }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(100,210,130,0.15);
+      border: 1.5px solid rgba(100,210,130,0.4);
+      color: rgba(100,210,130,0.9);
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-line {
+      width: 2px; flex: 1;
+      background: rgba(255,255,255,0.07);
+      margin-top: 4px;
+    }
+    .step:last-child .step-line { display: none; }
+    .step-body { padding-top: 3px; }
+    .step-title {
+      font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,0.9); margin-bottom: 3px;
+    }
+    .step-text {
+      font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5;
+    }
+
+    kbd {
+      display: inline-block;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 5px;
+      padding: 1px 6px;
+      font-size: 11px; font-family: inherit;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .note {
+      background: rgba(255,200,80,0.07);
+      border: 1px solid rgba(255,200,80,0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px; color: rgba(255,200,80,0.8);
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+    .note strong { color: rgba(255,200,80,1); }
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 40px 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Focus Mode — краткое руководство</h1>
+  <p class="subtitle">Кнопки 1–8 в правой части поля набора</p>
+
+  <!-- Anatomy -->
+  <div class="section">
+    <div class="section-title">Из чего состоит баббл</div>
+    <div class="anatomy">
+      <div class="anatomy-row">
+        <div class="anatomy-dot"></div>
+        <div class="anatomy-label">Изображения</div>
+        <div class="anatomy-desc">Сетка фотографий (до 9 шт.), автоматически выстраивается по строкам — 1, 2 или 3 в ряд.</div>
+      </div>
+      <div class="anatomy-row">
+        <div class="anatomy-dot"></div>
+        <div class="anatomy-label">Текст</div>
+        <div class="anatomy-desc">Основное тело сообщения с поддержкой форматирования: <strong>жирный</strong>, <em>курсив</em>, зачёркнутый, код, цитата, список.</div>
+      </div>
+      <div class="anatomy-row">
+        <div class="anatomy-dot"></div>
+        <div class="anatomy-label">Файлы</div>
+        <div class="anatomy-desc">Прикреплённые документы — имя и размер. Если есть и фото, и файлы, они разбиваются на два отдельных баббла.</div>
+      </div>
+      <div class="anatomy-row">
+        <div class="anatomy-dot"></div>
+        <div class="anatomy-label">Метки</div>
+        <div class="anatomy-desc">Цветные теги-категории. Выбираются из пресета или создаются вручную.</div>
+      </div>
+      <div class="anatomy-row">
+        <div class="anatomy-dot"></div>
+        <div class="anatomy-label">Время + статус</div>
+        <div class="anatomy-desc">Время отправки и значок прочтения, отображаются внутри баббла.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Variants -->
+  <div class="section">
+    <div class="section-title">Варианты Focus Mode</div>
+    <div class="variants">
+
+      <div class="variant-card">
+        <div class="variant-num">1</div>
+        <div class="variant-body">
+          <div class="variant-name">Модальный редактор</div>
+          <div class="variant-desc">Всплывающее окно по центру. Классический редактор с холстом — поле для текста + сетка изображений внутри одного диалога.</div>
+          <span class="variant-tag">Диалог</span>
+        </div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-num">2</div>
+        <div class="variant-body">
+          <div class="variant-name">Модальный v2</div>
+          <div class="variant-desc">Похож на v1, другая компоновка холста — более компактный заголовок и увеличенная область редактирования.</div>
+          <span class="variant-tag">Диалог</span>
+        </div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-num">3</div>
+        <div class="variant-body">
+          <div class="variant-name">Холст v3</div>
+          <div class="variant-desc">Полноэкранный режим с превью баббла прямо в интерфейсе. Изображения и текст видны в реальном виде сразу при наборе.</div>
+          <span class="variant-tag">Полный экран</span>
+        </div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-num">4</div>
+        <div class="variant-body">
+          <div class="variant-name">PiP (картинка-в-картинке)</div>
+          <div class="variant-desc">Мини-окно поверх чата — редактор остаётся открытым, пока вы листаете историю переписки.</div>
+          <span class="variant-tag">Поверх чата</span>
+        </div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-num">5</div>
+        <div class="variant-body">
+          <div class="variant-name">Лента сообщений</div>
+          <div class="variant-desc">Полноэкранный поток — новый баббл строится прямо в ленте, как если бы вы уже отправили его. Кнопки «Фото», «Файл», «Метка», «Отправить» снизу.</div>
+          <span class="variant-tag">Полный экран</span>
+        </div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-num">6</div>
+        <div class="variant-body">
+          <div class="variant-name">Лента v6 — расширенная</div>
+          <div class="variant-desc">Аналог v5, но с поддержкой отправки нескольких бабблов за раз (пакетная отправка) и расширенными режимами группировки.</div>
+          <span class="variant-tag">Полный экран</span>
+        </div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-num">7</div>
+        <div class="variant-body">
+          <div class="variant-name">Конструктор баббла</div>
+          <div class="variant-desc">Продвинутый редактор: перетаскивание фото, инлайн-форматирование текста, HUD-панель с управлением изображениями и файлами.</div>
+          <span class="variant-tag">Полный экран</span>
+        </div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-num">8</div>
+        <div class="variant-body">
+          <div class="variant-name">Призрак (Ghost)</div>
+          <div class="variant-desc">Прямо в ленте, в нижней части чата, появляется полупрозрачный баббл — редактируете как готовое сообщение, не уходя из чата. Используется по умолчанию при редактировании.</div>
+          <span class="variant-tag">Встроен в чат</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Edit flow -->
+  <div class="section">
+    <div class="section-title">Как редактировать сообщение</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Правый клик на баббле → «Редактировать»</div>
+          <div class="step-text">Открывается Ghost-режим (вариант 8) — баббл становится редактируемым прямо в ленте.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Редактируете в Ghost или выбираете другой вариант</div>
+          <div class="step-text">Нажмите кнопку <kbd>1</kbd>–<kbd>7</kbd> в панели снизу чтобы переключиться в другой режим. Содержимое баббла перенесётся автоматически.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Сохраните изменения</div>
+          <div class="step-text">Нажмите кнопку «Отправить» — сообщение в ленте обновится, сохранив время оригинала.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Для отмены — нажмите <kbd>Esc</kbd> или кнопку ✕</div>
+          <div class="step-text">Ghost-режим закрывается, оригинальное сообщение остаётся без изменений.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="note">
+      <strong>Важно:</strong> после выхода из редактирования (отправка или отмена) режим сбрасывается. Чтобы снова отредактировать — нажмите «Редактировать» ещё раз.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
